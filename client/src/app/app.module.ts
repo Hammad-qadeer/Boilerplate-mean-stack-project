@@ -19,13 +19,22 @@ import { UserComponent } from './user/user.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { CreateUserModalDialogComponent } from './create-user-modal-dialog/create-user-modal-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
     LayoutComponent,
     DashboardComponent,
-    UserComponent
+    UserComponent,
+    CreateUserModalDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +51,12 @@ import { MatSortModule } from '@angular/material/sort';
     BrowserAnimationsModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]
