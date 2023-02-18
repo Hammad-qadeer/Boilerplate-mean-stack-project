@@ -31,3 +31,18 @@ INSERT INTO `user_mgmt`.`users` (`name`, `email`, `active`) VALUES ('Doe', 'doe@
 INSERT INTO `user_mgmt`.`user_roles` (`user_id`, `role_id`) VALUES ('1', '1');
 INSERT INTO `user_mgmt`.`user_roles` (`user_id`, `role_id`) VALUES ('2', '1');
 INSERT INTO `user_mgmt`.`user_roles` (`user_id`, `role_id`) VALUES ('3', '2');
+
+CREATE TABLE activities (
+  id INT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  url VARCHAR(255),
+  active BOOLEAN NOT NULL DEFAULT true,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+);
+
+INSERT INTO `user_mgmt`.`activities` (`name`, `description`, `url`, `active`) VALUES ('Profile', 'Profile ', '/management/view-profiles', '1');
+INSERT INTO `user_mgmt`.`activities` (`name`, `description`, `url`, `active`) VALUES ('User', 'User ', '/management/user', '1');
+INSERT INTO `user_mgmt`.`activities` (`name`, `description`, `url`, `active`) VALUES ('Activity', 'Activity', '/management/view-activities', '1');

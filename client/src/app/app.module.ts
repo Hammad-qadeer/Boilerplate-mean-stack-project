@@ -27,6 +27,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { ActivityComponent } from './activity/activity.component';
+import { CreateActivityModalDialogComponent } from './create-activity-modal-dialog/create-activity-modal-dialog.component';
+import { RoleComponent } from './role/role.component';
+import { CreateRoleModalDialogComponent } from './create-role-modal-dialog/create-role-modal-dialog.component';
 
 
 
@@ -36,7 +40,11 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
     LayoutComponent,
     DashboardComponent,
     UserComponent,
-    CreateUserModalDialogComponent
+    CreateUserModalDialogComponent,
+    ActivityComponent,
+    CreateActivityModalDialogComponent,
+    RoleComponent,
+    CreateRoleModalDialogComponent
   ],
   imports: [
     BrowserModule,
