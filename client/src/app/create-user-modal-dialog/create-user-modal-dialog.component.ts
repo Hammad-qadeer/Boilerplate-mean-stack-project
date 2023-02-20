@@ -11,6 +11,9 @@ import { UsersService } from '../_services/users.service';
 })
 export class CreateUserModalDialogComponent {
 
+  hide = true;
+  confirmPassword = true;
+
   roles: { id: number, name: string }[] = [
     { id: 1, name: 'Admin' },
     { id: 2, name: 'Lead' },
@@ -26,16 +29,18 @@ export class CreateUserModalDialogComponent {
 
   ngOnInit() : void {
     this.userForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
+      username: ['', [Validators.required]],
       email: ['', [Validators.required]],
+      password: [''],
       active: [false],
       roleId: ['']
     });
 
     if(this.editData){
       this.actionBtn = "Update"
-      this.userForm.controls['name'].setValue(this.editData.name);
+      this.userForm.controls['username'].setValue(this.editData.username);
       this.userForm.controls['email'].setValue(this.editData.email);
+      this.userForm.controls['password'].setValue(this.editData.password);
       this.userForm.controls['active'].setValue(this.editData.active);
       this.userForm.controls['roleId'].setValue(this.editData.roleId);
     }

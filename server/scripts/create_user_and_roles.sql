@@ -46,3 +46,22 @@ CREATE TABLE activities (
 INSERT INTO `user_mgmt`.`activities` (`name`, `description`, `url`, `active`) VALUES ('Profile', 'Profile ', '/management/view-profiles', '1');
 INSERT INTO `user_mgmt`.`activities` (`name`, `description`, `url`, `active`) VALUES ('User', 'User ', '/management/user', '1');
 INSERT INTO `user_mgmt`.`activities` (`name`, `description`, `url`, `active`) VALUES ('Activity', 'Activity', '/management/view-activities', '1');
+
+
+CREATE TABLE role_activities (
+  id INT NOT NULL AUTO_INCREMENT,
+  role_id INT NOT NULL,
+  activity_id INT NOT NULL,
+  can_create BOOLEAN NOT NULL DEFAULT false,
+  can_read BOOLEAN NOT NULL DEFAULT false,
+  can_update BOOLEAN NOT NULL DEFAULT false,
+  can_delete BOOLEAN NOT NULL DEFAULT false,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  FOREIGN KEY (role_id) REFERENCES roles(id),
+  FOREIGN KEY (activity_id) REFERENCES activities(id)
+);
+
+INSERT INTO `user_mgmt`.`role_activities` (`role_id`, `activity_id`, `can_create`, `can_read`, `can_update`, `can_delete`, `created_at`) VALUES ('1', '1', '1', '1', '1', '1', '1');
+INSERT INTO `user_mgmt`.`role_activities` (`role_id`, `activity_id`, `can_create`, `can_read`, `can_update`, `can_delete`, `created_at`) VALUES ('1', '2', '1', '1', '1', '1', '1');

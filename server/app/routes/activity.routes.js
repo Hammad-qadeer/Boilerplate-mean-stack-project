@@ -15,4 +15,6 @@ module.exports = function (app) {
       app.get("/api/activity/:id", activityController.getActivityById);
       app.put("/api/activity/:id", activityController.updateActivity);
       app.delete("/api/activity/:id", activityController.deleteActivity);
+      app.post("/api/mapping", activityController.activity_mapping);
+      app.get("/api/selected/:roleId", activityController.getAllActivities);
 }

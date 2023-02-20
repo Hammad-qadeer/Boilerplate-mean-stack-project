@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { CreateActivityModalDialogComponent } from '../create-activity-modal-dialog/create-activity-modal-dialog.component';
 import { ActivitiesService } from '../_services/activities.service';
+import { StorageService } from '../_services/storage.service';
 import { ActivityDataSource, ActivityItem } from './activity-datasource';
 
 @Component({
@@ -19,10 +20,22 @@ export class ActivityComponent {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['name', 'active', 'url', 'created_at', 'actions'];
   dataSource = new MatTableDataSource<any>;
+
+  canCreate = false;
+  canRead = false;
+  canUpdate = false;
+  canDelete = false;
   
-  constructor(private activityService: ActivitiesService, public dialog: MatDialog) { }
+  constructor(private activityService: ActivitiesService, public dialog: MatDialog, private storageService: StorageService) { }
 
   ngOnInit() {
+    const user = this.storageService.getUser();
+    const userActivity = user.activities.find((a: any) => a.name === 'Activity');
+    alert(JSON.stringify(userActivity))
+    this.canCreate = userActivity.can_create;
+    this.canRead = userActivity.can_read;
+    this.canUpdate = userActivity.can_update;
+    this.canDelete = userActivity.can_delete;
     this.getAllActivities();
   }
 

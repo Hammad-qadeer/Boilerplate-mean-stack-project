@@ -16,6 +16,10 @@ export class ActivitiesService {
     return this.http.get<any>("http://localhost:8080/api/activities/");
   }
 
+  getSelectedActivities(role_id: number) {
+    return this.http.get<any>("http://localhost:8080/api/selected/" + role_id);
+  }
+
   putActivity(data: any, id: number) {
     debugger
     return this.http.put<any>("http://localhost:8080/api/activity/" + id, data)
@@ -23,6 +27,11 @@ export class ActivitiesService {
 
   deleteActivity(id: number) {
     return this.http.delete<any>("http://localhost:8080/api/activity/"+ id)
+  }
+
+  assignActivityToRole(data: any) {
+    debugger
+    return this.http.post<any>("http://localhost:8080/api/mapping/", data);
   }
 
 }

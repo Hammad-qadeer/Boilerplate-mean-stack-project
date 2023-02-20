@@ -6,6 +6,7 @@ import { CreateUserModalDialogComponent } from '../create-user-modal-dialog/crea
 import { MatDialog } from '@angular/material/dialog';
 import { UsersService } from '../_services/users.service';
 import {ThemePalette} from '@angular/material/core';
+import { StorageService } from '../_services/storage.service';
 
 @Component({
   selector: 'app-user',
@@ -17,11 +18,16 @@ export class UserComponent {
   @ViewChild(MatSort) sort!: MatSort;
   // dataSource: UserDataSource;
 
+  canCreate = false;
+  canRead = false;
+  canUpdate = false;
+  canDelete = false;
+
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns: string[] = ['name', 'email', 'role', 'active', 'actions'];
+  displayedColumns: string[] = ['username', 'email', 'role', 'active', 'actions'];
   dataSource = new MatTableDataSource<any>;
 
-  constructor(public dialog: MatDialog, private userService: UsersService) {
+  constructor(public dialog: MatDialog, private userService: UsersService, private storageService: StorageService) {
     // this.dataSource = new UserDataSource();
   }
 
@@ -36,8 +42,16 @@ export class UserComponent {
   }
 
   ngOnInit() {
+    const user = this.storageService.getUser();
+    const userActivity = user.activities.find((a: any) => a.name === 'User');
+    alert(JSON.stringify(userActivity))
+    this.canCreate = userActivity.can_create;
+    this.canRead = userActivity.can_read;
+    this.canUpdate = userActivity.can_update;
+    this.canDelete = userActivity.can_delete;
     this.getUsers();
   }
+  
   getUsers() {
     this.userService.getUsers().subscribe({
       next: (res: any)=> {

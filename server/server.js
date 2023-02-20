@@ -14,6 +14,7 @@ app.use(
   );
 
 //routes
+require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/activity.routes")(app);
 require("./app/routes/role.routes")(app);

@@ -14,9 +14,9 @@
   </div>
   <br><br><br>
   <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    <ng-container matColumnDef="name">
+    <ng-container matColumnDef="username">
       <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{element.username}} </mat-cell>
     </ng-container>
   
     <ng-container matColumnDef="email">
@@ -39,10 +39,10 @@
     <ng-container matColumnDef="actions">
       <mat-header-cell mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
       <mat-cell mat-cell *matCellDef="let element">
-        <button mat-icon-button color="primary"(click)="editUser(element)">
+        <button mat-icon-button color="primary"(click)="editUser(element)" *ngIf="canUpdate">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="warn" (click)="deleteUser(element.userId)">
+        <button mat-icon-button color="warn" (click)="deleteUser(element.userId)" *ngIf="canDelete">
           <mat-icon>delete</mat-icon>
         </button>
       </mat-cell>
@@ -53,7 +53,7 @@
   </mat-table>
 
   <mat-paginator #paginator
-      [length]="dataSource?.data?.length"
+      [length]="dataSource.data.length"
       [pageIndex]="0"
       [pageSize]="10"
       [pageSizeOptions]="[5, 10, 20]"

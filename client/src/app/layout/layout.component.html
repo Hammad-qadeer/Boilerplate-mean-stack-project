@@ -4,26 +4,45 @@
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Menu</mat-toolbar>
-    <mat-nav-list>
-      <a mat-list-item routerLink="/dashboard">Dashboard</a>
-      <a mat-list-item routerLink="/user">User</a>
-      <a mat-list-item routerLink="/activity">Link 3</a>
+    <mat-nav-list *ngFor="let activity of user.activities">
+      <a mat-list-item routerLink={{activity.url}}>{{activity.name}}</a>
+      <!-- <a mat-list-item routerLink="/user">User</a>
+      <a mat-list-item routerLink="/activity">Activity</a>
+      <a mat-list-item routerLink="/role">Role</a> -->
+
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
+    <mat-toolbar color="primary" style="display: flex; justify-content: space-between; align-items: center;">
       <button
         type="button"
         aria-label="Toggle sidenav"
         mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
+        (click)="drawer.toggle()">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>client</span>
+      <div class="row mr-2 ml-auto">
+        <ul class="row m-0 align-items-center">
+          <li >
+            <button
+              mat-button
+              [matMenuTriggerFor]="menu"
+              class="user mt-2 d-flex align-items-center"
+            > 
+            {{user.username}} 
+              <mat-icon class="user-image-icon ml-1"
+                >keyboard_arrow_down</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="logout()">
+                <mat-icon>exit_to_app</mat-icon>
+                Logout
+              </button>
+            </mat-menu>
+          </li>
+        </ul>
+      </div>
     </mat-toolbar>
-    <!-- <app-dashboard></app-dashboard> -->
-    <!-- <app-user></app-user> -->
-    <app-activity></app-activity>
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

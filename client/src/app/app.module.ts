@@ -30,8 +30,10 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ActivityComponent } from './activity/activity.component';
 import { CreateActivityModalDialogComponent } from './create-activity-modal-dialog/create-activity-modal-dialog.component';
 import { RoleComponent } from './role/role.component';
-import { CreateRoleModalDialogComponent } from './create-role-modal-dialog/create-role-modal-dialog.component';
-
+import { CreateActivityMappingDialogComponent } from './create-activity-mapping-dialog/create-activity-mapping-dialog.component';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { LoginComponent } from './login/login.component'
+import { httpInterceptorProviders } from '../app/_helpers/http.interceptor';
 
 
 @NgModule({
@@ -44,7 +46,8 @@ import { CreateRoleModalDialogComponent } from './create-role-modal-dialog/creat
     ActivityComponent,
     CreateActivityModalDialogComponent,
     RoleComponent,
-    CreateRoleModalDialogComponent
+    CreateActivityMappingDialogComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,9 +72,10 @@ import { CreateRoleModalDialogComponent } from './create-role-modal-dialog/creat
     MatInputModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatExpansionModule
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

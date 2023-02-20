@@ -1,0 +1,54 @@
+<h1 mat-dialog-title>Add Activity</h1>
+<div mat-dialog-content>
+  <form>
+    <mat-form-field appearance="outline">
+        <mat-label>Please Select</mat-label>
+        <mat-select [(ngModel)]="selectedRoleId" name="selectedRoleId" (selectionChange)="getSelectedActivities()">
+          <mat-option *ngFor="let role of roles" [value]="role.id">{{role.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    <div class="basic-container">
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+       User Management
+      </mat-expansion-panel-header>
+      <mat-action-row>
+        <table class="table" *ngIf="selectedRoleId">
+            <thead>
+              <tr>
+                <th>Activity Name</th>
+                <th>Create</th>
+                <th>Read</th>
+                <th>Update</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let activity of userActivities; let i=index">
+              <tr>
+                <td>{{activity.name}}</td>
+                <td>
+                  <mat-checkbox [(ngModel)]="userActivities[i].can_create" name="userActivities[{{i}}].can_create" color="primary"></mat-checkbox>
+                </td>
+                <td>
+                  <mat-checkbox [(ngModel)]="userActivities[i].can_read" name="userActivities[{{i}}].can_read"  color="primary"></mat-checkbox>
+                </td>
+                <td>
+                  <mat-checkbox [(ngModel)]="userActivities[i].can_update" name="userActivities[{{i}}].can_update"  color="primary"></mat-checkbox>
+                </td>
+                <td>
+                  <mat-checkbox [(ngModel)]="userActivities[i].can_delete" name="userActivities[{{i}}].can_delete"  color="primary"></mat-checkbox>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="warn" mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="primary" (click)="assignActivity()">Save</button>
+</div>
