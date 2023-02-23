@@ -1,3 +1,13 @@
+ul {
+  li {
+    list-style: none;
+  }
+}
+
+.welcome-text {
+  font-size: smaller;
+}
+
 .sidenav-container {
   height: 100%;
 }
@@ -7,7 +17,7 @@
 }
 
 .sidenav .mat-toolbar {
-  background: inherit;
+  background: #3f51b5 !important;
 }
 
 .mat-toolbar.mat-primary {
@@ -16,8 +26,89 @@
   z-index: 1;
 }
 
-ul {
-  li {
-    list-style: none;
+mat-toolbar {
+  color: #eee;
+}
+
+//accordion
+
+.example-accordion {
+  display: block;
+  max-width: 500px;
+  padding-right: 0.5rem !important;
+  padding-left: 0.5rem !important;
+}
+
+
+
+.example-accordion-item {
+  display: block;
+}
+
+.example-accordion-item + .example-accordion-item {
+  border: 0 !important;
+}
+
+.example-accordion-item-header {
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+}
+
+.example-accordion-item-description {
+  font-size: 0.85em;
+}
+
+.example-accordion-item-header,
+.example-accordion-item-body {
+  padding: 1rem !important;
+  box-sizing: border-box;
+  margin-bottom: 0.5rem !important;
+}
+
+.example-accordion-item-header:hover {
+  cursor: pointer;
+  background-color: #eee;
+}
+
+.example-accordion-item:first-child {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.example-accordion-item:last-child {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.border-side{
+  border-radius: 6px;
+  height: 50px;
+}
+
+.bg-bar{
+  background: #3f51b5 !important;
+}
+.bg-primary{
+  background: #3f51b5 !important;
+  color: white;
+}
+
+.drop-body{
+  background: #e9e9e9;
+  border-radius: 6px;
+
+  a{
+    margin-bottom: 3px;
+    padding: 7px 10px;
   }
 }
+
+.activebutton {
+  box-shadow: inset 0 1px 0 0 #dcecfb;
+  background: #3f51b5 linear-gradient(to bottom, #3f51b5 5%, #2c3e50 100%);
+  border: 1px solid #fff;
+  color: #ffffff;
+  text-shadow: 0 1px 0 #2c3e50;
+}
+

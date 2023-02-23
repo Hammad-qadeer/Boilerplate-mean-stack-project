@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import {ThemePalette} from '@angular/material/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { RolesService } from '../_services/roles.service';
 import { UsersService } from '../_services/users.service';
 
 @Component({
@@ -14,15 +15,11 @@ export class CreateUserModalDialogComponent {
   hide = true;
   confirmPassword = true;
 
-  roles: { id: number, name: string }[] = [
-    { id: 1, name: 'Admin' },
-    { id: 2, name: 'Lead' },
-    { id: 3, name: 'Manager' }
-  ];
+  roles: any;
   userForm: any;
   actionBtn : string = "Save";
 
-  constructor(private userService: UsersService, private formBuilder: FormBuilder,
+  constructor(private userService: UsersService, private formBuilder: FormBuilder, private roleService : RolesService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef : MatDialogRef<CreateUserModalDialogComponent>
     ) {}
@@ -44,6 +41,20 @@ export class CreateUserModalDialogComponent {
       this.userForm.controls['active'].setValue(this.editData.active);
       this.userForm.controls['roleId'].setValue(this.editData.roleId);
     }
+    this.getRoles();
+  }
+
+  getRoles() {
+    this.roleService.getRoles().subscribe({
+      next: (res: any)=> {
+        console.log(res)
+        this.roles = res.roles;
+        console.log(this.roles)
+      },
+      error: (err)=> {
+        alert("Error while fetching the records")
+      }
+    })
   }
 
   addUser() {

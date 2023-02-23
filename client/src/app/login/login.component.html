@@ -1,11 +1,11 @@
-<div class="login-wrapper container">
+<div class="login-wrapper container" style="background: #f0f2f5;">
 
     <mat-card class="box-2">
       <mat-card-header>
-        <mat-card-title>Log in</mat-card-title>
+        <mat-card-title  color="primary">Log in</mat-card-title>
       </mat-card-header>
   
-      <form [formGroup]="loginForm" class="example-form" (ngSubmit)="onSubmit()">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <mat-card-content>
           <mat-form-field class="example-full-width">
             <mat-icon matPrefix>person</mat-icon>
@@ -26,7 +26,7 @@
             </mat-error>
           </mat-form-field>
         </mat-card-content>
-        <button mat-stroked-button color="accent" class="btn-block" [disabled]="!loginForm.valid" type="submit">Log in</button>
+        <button mat-stroked-button color="primary" class="btn-block" [disabled]="!loginForm.valid" type="submit">Log in</button>
       </form>
     </mat-card>
   

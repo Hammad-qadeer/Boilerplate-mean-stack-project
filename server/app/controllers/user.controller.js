@@ -35,10 +35,10 @@ exports.getUserById = async (req, res) => {
 
 exports.updateUser = async (req, res) =>{
     const { id } = req.params;
-    const { username, email, active, roleId } = req.body;
+    const { username, email, password, active, roleId } = req.body;
     await sequelize.query(`UPDATE users SET 
-    username = :username, email = :email, active = :active WHERE ID = :id`,
-    {replacements: {id, username, email, active}, type: sequelize.QueryTypes.UPDATE})
+    username = :username, email = :email, password: :password, active = :active WHERE ID = :id`,
+    {replacements: {id, username, email, password, active}, type: sequelize.QueryTypes.UPDATE})
 
     await sequelize.query(`UPDATE user_roles SET 
         role_id = :roleId WHERE user_id = :userId`,

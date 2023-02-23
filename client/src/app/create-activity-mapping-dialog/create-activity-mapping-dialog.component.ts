@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { ActivitiesService } from '../_services/activities.service';
 import { RolesService } from '../_services/roles.service';
 import {ThemePalette} from '@angular/material/core';
+import { MatDialogRef } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-activity-mapping-dialog',
@@ -20,7 +22,9 @@ export class CreateActivityMappingDialogComponent {
 
   constructor(
     private roleService: RolesService,
-    private activityService: ActivitiesService
+    private activityService: ActivitiesService,
+    private dialogRef : MatDialogRef<CreateActivityMappingDialogComponent>,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -44,10 +48,11 @@ export class CreateActivityMappingDialogComponent {
   }
     this.activityService.assignActivityToRole(formData).subscribe({
       next: () => {
-        alert('Actvity added Successfully');
+        this.toastr.success("Activity Added Successfully");
+        this.dialogRef.close('save')
       },
       error: () => {
-        alert('Error while adding the employee');
+        this.toastr.error("Error while adding the Activity");
       },
     });
   }

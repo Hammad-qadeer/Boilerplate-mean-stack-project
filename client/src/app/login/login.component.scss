@@ -7,12 +7,15 @@
   
   .box-2 {
     position: relative;
-    padding: 12px 50px 40px 50px;
+    padding: 1.5rem;
     width: 100%;
-    background: #fff;
+    background-color: rgb(255, 255, 255);
     border-radius: 10px;
     max-width: 500px;
     text-align: center;
+    border-width: 1px;
+    border-color: rgb(212, 210, 208);
+    border-style: solid;
   }
   
   .login-wrapper .example-form {
@@ -21,8 +24,7 @@
     width: 100%;
   }
   
-  .login-wrapper .example-full-width,
-  .login-wrapper .btn-block {
+  .login-wrapper .example-full-width {
     width: 100%;
   }
   
@@ -45,6 +47,31 @@
   
   .mat-mdc-outlined-button.mat-mdc-button-base {
     height: 52px;
+    width: 50%;
+    box-sizing: border-box;
+    background: none rgb(37, 87, 167);
+    appearance: none;
+    text-align: left;
+    text-decoration: none;
+    border: 1px solid rgb(37, 87, 167);
+    cursor: pointer;
+    user-select: none;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    position: relative;
+    margin: 1rem 0px 0px;
+    padding: 0.5625rem 1rem;
+    line-height: 1.5;
+    font-family: "Noto Sans", "Helvetica Neue", Helvetica, Arial, "Liberation Sans", Roboto, Noto, sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 0.5rem;
+    transition: border-color 200ms cubic-bezier(0.645, 0.045, 0.355, 1) 0s, background-color 200ms cubic-bezier(0.645, 0.045, 0.355, 1) 0s, opacity 200ms cubic-bezier(0.645, 0.045, 0.355, 1) 0s, box-shadow 200ms cubic-bezier(0.645, 0.045, 0.355, 1) 0s, color 200ms cubic-bezier(0.645, 0.045, 0.355, 1) 0s;
+    display: flex;
+    width: 100%;
+    color: rgb(255, 255, 255);
   }
   
   .login-wrapper .mat-stroked-button {

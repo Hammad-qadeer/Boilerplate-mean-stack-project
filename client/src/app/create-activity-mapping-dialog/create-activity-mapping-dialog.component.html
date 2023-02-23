@@ -6,12 +6,13 @@
         <mat-select [(ngModel)]="selectedRoleId" name="selectedRoleId" (selectionChange)="getSelectedActivities()">
           <mat-option *ngFor="let role of roles" [value]="role.id">{{role.name}}</mat-option>
         </mat-select>
+        <mat-error *ngIf="!selectedRoleId">Please select a role</mat-error>
       </mat-form-field>
     <div class="basic-container">
   <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
-       User Management
+       Activities
       </mat-expansion-panel-header>
       <mat-action-row>
         <table class="table" *ngIf="selectedRoleId">
@@ -49,6 +50,6 @@
   </form>
 </div>
 <div mat-dialog-actions>
-  <button mat-raised-button color="warn" mat-dialog-close>Cancel</button>
-  <button mat-raised-button color="primary" (click)="assignActivity()">Save</button>
+  <button mat-flat-button color="warn" mat-dialog-close>Cancel</button>
+  <button mat-flat-button color="primary" (click)="assignActivity()">Save</button>
 </div>

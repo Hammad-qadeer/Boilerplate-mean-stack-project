@@ -40,6 +40,10 @@ exports.updateActivity = async (req, res) => {
 
 exports.deleteActivity = async (req, res) => {
     const {id} = req.params;
+
+    await sequelize.query(`DELETE FROM role_activities WHERE activity_id = :activityId`,
+        { replacements: { activityId: id }, type: sequelize.QueryTypes.DELETE });
+
     await sequelize.query(`Delete from activities WHERE ID = :id`, {
         replacements: {id},
         type: sequelize.QueryTypes.DELETE

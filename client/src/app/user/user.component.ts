@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UsersService } from '../_services/users.service';
 import {ThemePalette} from '@angular/material/core';
 import { StorageService } from '../_services/storage.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user',
@@ -27,11 +28,13 @@ export class UserComponent {
   displayedColumns: string[] = ['username', 'email', 'role', 'active', 'actions'];
   dataSource = new MatTableDataSource<any>;
 
-  constructor(public dialog: MatDialog, private userService: UsersService, private storageService: StorageService) {
+  constructor(public dialog: MatDialog, private userService: UsersService, 
+    private storageService: StorageService, private toastr : ToastrService) {
     // this.dataSource = new UserDataSource();
   }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    if(this.canCreate) {
     this.dialog.open(CreateUserModalDialogComponent, {
       width: '50%',
       enterAnimationDuration,
@@ -39,12 +42,14 @@ export class UserComponent {
     }).afterClosed().subscribe(val => {
       this.getUsers();
   });
+} else {
+  this.toastr.warning("You don't have access for Create");
+}
   }
 
   ngOnInit() {
     const user = this.storageService.getUser();
     const userActivity = user.activities.find((a: any) => a.name === 'User');
-    alert(JSON.stringify(userActivity))
     this.canCreate = userActivity.can_create;
     this.canRead = userActivity.can_read;
     this.canUpdate = userActivity.can_update;
@@ -53,19 +58,24 @@ export class UserComponent {
   }
   
   getUsers() {
+    if(this.canRead) {
     this.userService.getUsers().subscribe({
       next: (res: any)=> {
         this.dataSource = new MatTableDataSource(res.users)
         this.dataSource.paginator = this.paginator;
       },
       error: (err)=> {
-        alert("Error while fetching the records")
+        this.toastr.error("Error while fetching the record");
       }
     })
+  }else {
+    this.toastr.warning("You don't have access to View");
+  }
   }
 
   editUser(element: any) {
     debugger
+    if(this.canUpdate) {
     this.dialog.open(CreateUserModalDialogComponent, {
       width: '50%',
       data: element
@@ -74,17 +84,24 @@ export class UserComponent {
         this.getUsers();
       }
     })
+  } else {
+    this.toastr.warning("You don't have access for Edit");
+  }
   }
 
   deleteUser(id: number) {
     debugger
+    if(this.canDelete) {
     this.userService.deleteUser(id).subscribe({
       next:(res) => {
         this.getUsers();
       },
-      error(err) {
-        alert("Error while deleting the record")
+      error: (err)=> {
+        this.toastr.error("Error while fetching the record");
       },
   })
+} else {
+  this.toastr.warning("You don't have access for Delete");
+}
   }
 }

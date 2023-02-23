@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivitiesService } from '../_services/activities.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-activity-modal-dialog',
@@ -14,7 +15,8 @@ export class CreateActivityModalDialogComponent {
 
   constructor(private activityService: ActivitiesService, private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public editData: any,
-    private dialogRef : MatDialogRef<CreateActivityModalDialogComponent>
+    private dialogRef : MatDialogRef<CreateActivityModalDialogComponent>,
+    private toastr : ToastrService
     ) {}
 
   ngOnInit() : void {
@@ -41,12 +43,12 @@ export class CreateActivityModalDialogComponent {
         this.activityService.postActivity(this.activityForm.value)
         .subscribe({
           next: (res)=> {
-            alert("Activity added Successfully");
+            this.toastr.success("Activity Added Successfully");
             this.activityForm.reset();
             this.dialogRef.close('save')
           },
           error: ()=> {
-            alert("Error while adding the employee")
+            this.toastr.error("Error while adding the activity");
           }
         }) 
       }
@@ -60,11 +62,12 @@ export class CreateActivityModalDialogComponent {
     this.activityService.putActivity(this.activityForm.value, this.editData.id)
     .subscribe({
       next: (res)=> {
+        this.toastr.success("Activity Updated Successfully");
         this.activityForm.reset();
         this.dialogRef.close('update');
       },
       error:()=> {
-        alert("Error while updating the record")
+        this.toastr.error("Error while updating the record");
       }
     })
   }

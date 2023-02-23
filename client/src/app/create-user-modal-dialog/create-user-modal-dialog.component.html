@@ -21,7 +21,7 @@
       
       
       <mat-form-field appearance="outline">
-        <mat-label>Role</mat-label>
+        <mat-label>Please Select</mat-label>
         <mat-select formControlName="roleId">
           <mat-option *ngFor="let role of roles" [value]="role.id">{{role.name}}</mat-option>
         </mat-select>
@@ -33,6 +33,6 @@
   </form>
 </div>
 <div mat-dialog-actions>
-  <button mat-raised-button color="warn" mat-dialog-close>Cancel</button>
-  <button mat-raised-button color="primary" (click)="addUser()">{{actionBtn}}</button>
+  <button mat-flat-button color="warn" mat-dialog-close>Cancel</button>
+  <button mat-flat-button color="primary" (click)="addUser()">{{actionBtn}}</button>
 </div>

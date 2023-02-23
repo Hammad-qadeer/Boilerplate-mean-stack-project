@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { StorageService } from '../_services/storage.service';
 
@@ -8,13 +8,20 @@ import { StorageService } from '../_services/storage.service';
 })
 export class RoleGuardGuard implements CanActivate {
   
-  constructor(private storageService: StorageService) {}
+  constructor(private storageService: StorageService, private router: Router) {}
   canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    console.log(route, state)
-   const activityURLS =  this.storageService.getUser().activities.map((activity : any) => activity.url);
-    return activityURLS.includes(state.url);
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    const activityURLS = this.storageService.getUser().activities.map((activity: any) => activity.url);
+    const isAuthorized = activityURLS.includes(state.url);
+
+    if (isAuthorized) {
+      return true;
+    } else {
+      // Redirect to "not found" page
+      return this.router.parseUrl('/not-found');
+    }
+  }
   }
   
-}

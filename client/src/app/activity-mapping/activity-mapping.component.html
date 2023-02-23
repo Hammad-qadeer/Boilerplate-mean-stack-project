@@ -1,0 +1,47 @@
+<div class="mat-elevation-z8" style="margin-left: 20px; margin-right: 20px;">
+  
+    <div style="margin-top: 20px;">
+      <mat-card>
+        <mat-card-content>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h3>Portal Roles &amp; Rights</h3>
+            <button mat-flat-button color="primary" (click)="openDialog('0ms', '0ms')">
+              <mat-icon class="mr-2">add</mat-icon>
+              <span>Activity Mapping</span>
+            </button>
+          </div>
+        
+        </mat-card-content>
+      </mat-card>
+      
+    </div>
+    <br><br><br>
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="created_at">
+        <mat-header-cell *matHeaderCellDef> Created At </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.created_at | date}} </mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="updated_at">
+        <mat-header-cell *matHeaderCellDef> Updated At </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.updated_at | date}} </mat-cell>
+      </ng-container>
+    
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  
+    <mat-paginator #paginator
+        [length]="dataSource.data.length"
+        [pageIndex]="0"
+        [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 20]"
+        aria-label="Select page">
+    </mat-paginator>
+  </div>
+  

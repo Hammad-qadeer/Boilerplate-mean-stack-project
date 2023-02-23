@@ -34,6 +34,12 @@ import { CreateActivityMappingDialogComponent } from './create-activity-mapping-
 import {MatExpansionModule} from '@angular/material/expansion';
 import { LoginComponent } from './login/login.component'
 import { httpInterceptorProviders } from '../app/_helpers/http.interceptor';
+import { NotfoundComponent } from './notfound/notfound.component';
+import {CdkAccordionModule} from '@angular/cdk/accordion';
+import { ActivityMappingComponent } from './activity-mapping/activity-mapping.component';
+import { CreateRoleModalDialogComponent } from './create-role-modal-dialog/create-role-modal-dialog.component';
+import { ToastrModule } from 'ngx-toastr';
+
 
 
 @NgModule({
@@ -48,6 +54,9 @@ import { httpInterceptorProviders } from '../app/_helpers/http.interceptor';
     RoleComponent,
     CreateActivityMappingDialogComponent,
     LoginComponent,
+    NotfoundComponent,
+    ActivityMappingComponent,
+    CreateRoleModalDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,7 +82,15 @@ import { httpInterceptorProviders } from '../app/_helpers/http.interceptor';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    MatExpansionModule
+    MatExpansionModule,
+    CdkAccordionModule,
+    ToastrModule.forRoot({
+      timeOut: 10000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+      closeButton: true,
+      progressBar: true,
+    }),
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
