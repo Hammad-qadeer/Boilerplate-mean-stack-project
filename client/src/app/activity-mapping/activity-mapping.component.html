@@ -19,7 +19,54 @@
     <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.username}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="role_name">
+        <mat-header-cell *matHeaderCellDef> Role </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.rolename}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="activity_name">
+        <mat-header-cell *matHeaderCellDef> Activity </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.activityname}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="active">
+        <mat-header-cell *matHeaderCellDef> Active </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.active}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="can_create">
+        <mat-header-cell *matHeaderCellDef> Create </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span *ngIf="element.can_create; else elseBlock">true</span>
+          <ng-template #elseBlock>false</ng-template>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="can_read">
+        <mat-header-cell *matHeaderCellDef> Read </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span *ngIf="element.can_read; else elseBlock">true</span>
+          <ng-template #elseBlock>false</ng-template>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="can_update">
+        <mat-header-cell *matHeaderCellDef> Update </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span *ngIf="element.can_update; else elseBlock">true</span>
+          <ng-template #elseBlock>false</ng-template>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="can_delete">
+        <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span *ngIf="element.can_delete; else elseBlock">true</span>
+          <ng-template #elseBlock>false</ng-template>
+        </mat-cell>
       </ng-container>
   
       <ng-container matColumnDef="created_at">

@@ -4,6 +4,7 @@ import { RolesService } from '../_services/roles.service';
 import {ThemePalette} from '@angular/material/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { StorageService } from '../_services/storage.service';
 
 @Component({
   selector: 'app-create-activity-mapping-dialog',
@@ -24,7 +25,8 @@ export class CreateActivityMappingDialogComponent {
     private roleService: RolesService,
     private activityService: ActivitiesService,
     private dialogRef : MatDialogRef<CreateActivityMappingDialogComponent>,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private storageService: StorageService
   ) {}
 
   ngOnInit() {
@@ -73,9 +75,12 @@ export class CreateActivityMappingDialogComponent {
   }
 
   getRoles() {
+    const user = this.storageService.getUser();
+    const roleId = user.activities[0].role_id;
+    console.log(roleId, user)
     this.roleService.getRoles().subscribe({
       next: (res: any) => {
-        this.roles = res.roles;
+        this.roles = this.roles = res.roles.filter((role: any) => role.name !== 'ADMIN' && role.id !== roleId ); 
       },
       error: (err) => {
         alert('Error while fetching the records');

@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CreateActivityModalDialogComponent } from '../create-activity-modal-dialog/create-activity-modal-dialog.component';
 import { ActivitiesService } from '../_services/activities.service';
@@ -31,13 +32,16 @@ export class ActivityComponent {
     private activityService: ActivitiesService,
     public dialog: MatDialog,
     private storageService: StorageService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
 
   ngOnInit() {
+    const currentUrl = this.router.url
     const user = this.storageService.getUser();
+    console.log(user)
     const userActivity = user.activities.find(
-      (a: any) => a.name === 'Activity'
+      (a: any) => a.url === currentUrl
     );
     this.canCreate = userActivity.can_create;
     this.canRead = userActivity.can_read;

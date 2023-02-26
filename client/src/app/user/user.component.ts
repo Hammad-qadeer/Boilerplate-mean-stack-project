@@ -8,6 +8,7 @@ import { UsersService } from '../_services/users.service';
 import {ThemePalette} from '@angular/material/core';
 import { StorageService } from '../_services/storage.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -29,7 +30,7 @@ export class UserComponent {
   dataSource = new MatTableDataSource<any>;
 
   constructor(public dialog: MatDialog, private userService: UsersService, 
-    private storageService: StorageService, private toastr : ToastrService) {
+    private storageService: StorageService, private toastr : ToastrService, private router: Router) {
     // this.dataSource = new UserDataSource();
   }
 
@@ -48,8 +49,10 @@ export class UserComponent {
   }
 
   ngOnInit() {
+    const currentUrl = this.router.url
     const user = this.storageService.getUser();
-    const userActivity = user.activities.find((a: any) => a.name === 'User');
+    const userActivity = user.activities.find((a: any) => a.url === currentUrl);
+    console.log(userActivity)
     this.canCreate = userActivity.can_create;
     this.canRead = userActivity.can_read;
     this.canUpdate = userActivity.can_update;

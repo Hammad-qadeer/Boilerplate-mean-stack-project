@@ -34,4 +34,9 @@ export class ActivitiesService {
     return this.http.post<any>("http://localhost:8080/api/mapping/", data);
   }
 
+  activityMappedData() {
+    debugger
+    return this.http.get<any>("http://localhost:8080/api/getprofiledata");
+  }
+
 }

@@ -5,7 +5,7 @@ const config = require("../config/auth.config");
 const db = require("../models"); // assuming we have User and Role models defined
 const User = db.user;
 const Role = db.role;
-const { sequelize } = require("../models/index.js")
+const { sequelize } = require("../models/index.js");
 
 exports.signin = async (req, res) => {
   try {
@@ -38,15 +38,18 @@ exports.signin = async (req, res) => {
     JOIN role_activities as ra ON activities.id = ra.activity_id
     JOIN user_roles as ur ON ra.role_id = ur.role_id
     WHERE ur.user_id =${user.id}`;
+    console.log(rolesQuery)
 
     const activities = await sequelize.query(rolesQuery, {
       type: sequelize.QueryTypes.SELECT,
     });
-    console.log(activities)
-    
+    console.log(activities);
+
     return res.status(200).send({
       id: user.id,
+      isActive: user.active,
       username: user.username,
+      currentRole : activities.role_id,
       email: user.email,
       activities,
       accessToken: token,
@@ -57,12 +60,12 @@ exports.signin = async (req, res) => {
 };
 
 exports.signout = async (req, res) => {
-    try {
-      req.session = null;
-      return res.status(200).send({
-        message: "You've been signed out!"
-      });
-    } catch (err) {
-      this.next(err);
-    }
-  };
+  try {
+    req.session = null;
+    return res.status(200).send({
+      message: "You've been signed out!",
+    });
+  } catch (err) {
+    this.next(err);
+  }
+};

@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CreateRoleModalDialogComponent } from '../create-role-modal-dialog/create-role-modal-dialog.component';
 import { RolesService } from '../_services/roles.service';
@@ -29,11 +30,14 @@ export class RoleComponent {
   canDelete = false;
 
   constructor(private roleService: RolesService, public dialog: MatDialog, 
-    private storageService: StorageService, private toastr : ToastrService) {}
+    private storageService: StorageService, private toastr : ToastrService, private router: Router) {}
 
   ngOnInit() {
+    const currentUrl = this.router.url
+    console.log(currentUrl)
     const user = this.storageService.getUser();
-    const userActivity = user.activities.find((a: any) => a.name === 'Profile');
+    const userActivity = user.activities.find((a: any) => a.url === currentUrl);
+    console.log(userActivity)
     this.canCreate = userActivity.can_create;
     this.canRead = userActivity.can_read;
     this.canUpdate = userActivity.can_update;

@@ -6,7 +6,6 @@
         <mat-select [(ngModel)]="selectedRoleId" name="selectedRoleId" (selectionChange)="getSelectedActivities()">
           <mat-option *ngFor="let role of roles" [value]="role.id">{{role.name}}</mat-option>
         </mat-select>
-        <mat-error *ngIf="!selectedRoleId">Please select a role</mat-error>
       </mat-form-field>
     <div class="basic-container">
   <mat-accordion>
