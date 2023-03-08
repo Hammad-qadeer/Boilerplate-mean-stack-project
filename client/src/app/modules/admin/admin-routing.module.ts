@@ -19,7 +19,7 @@ const routes: Routes = [
       { path: 'user', component: UserComponent },
       { path: 'view-activities', component: ActivityComponent },
       { path: 'view-profiles', component: ActivityMappingComponent },
-      { path: 'view-role', component: RoleComponent }
+      { path: 'view-role', component: RoleComponent },
     ],
   },
 ];

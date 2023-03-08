@@ -4,6 +4,7 @@ import {ThemePalette} from '@angular/material/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RolesService } from '../_services/roles.service';
 import { UsersService } from '../_services/users.service';
+import { Toast, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-user-modal-dialog',
@@ -20,6 +21,7 @@ export class CreateUserModalDialogComponent {
   actionBtn : string = "Save";
 
   constructor(private userService: UsersService, private formBuilder: FormBuilder, private roleService : RolesService,
+    private toastr: ToastrService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef : MatDialogRef<CreateUserModalDialogComponent>
     ) {}
@@ -47,9 +49,7 @@ export class CreateUserModalDialogComponent {
   getRoles() {
     this.roleService.getRoles().subscribe({
       next: (res: any)=> {
-        console.log(res)
         this.roles = res.roles;
-        console.log(this.roles)
       },
       error: (err)=> {
         alert("Error while fetching the records")
@@ -64,12 +64,12 @@ export class CreateUserModalDialogComponent {
         this.userService.postUser(this.userForm.value)
         .subscribe({
           next: (res)=> {
-            alert("Employee added Successfully");
+            this.toastr.success("Activity added Successfully");
             this.userForm.reset();
             this.dialogRef.close('save')
           },
           error: ()=> {
-            alert("Error while adding the employee")
+            this.toastr.error("Error while adding the activity");
           }
         }) 
       }
@@ -87,7 +87,7 @@ export class CreateUserModalDialogComponent {
         this.dialogRef.close('update');
       },
       error:()=> {
-        alert("Error while updating the record")
+        this.toastr.error("Error while updating the record")
       }
     })
   }

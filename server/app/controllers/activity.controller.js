@@ -106,13 +106,12 @@ exports.activity_mapping = async (req, res, next) => {
 };
 
 exports.activityMappingData = async (req, res) => {
-  const activityMapping = await sequelize.query(`SELECT u.username, r.name AS rolename, a.name AS activityname, a.active, 
-  ra.can_create, ra.can_read, ra.can_update, ra.can_delete, ra.created_at, ra.updated_at
-  FROM users u
-  JOIN user_roles ur ON u.id = ur.user_id
-  JOIN roles r ON ur.role_id = r.id
-  JOIN role_activities ra ON r.id = ra.role_id
-  JOIN activities a ON ra.activity_id = a.id`, {type: sequelize.QueryTypes.SELECT});
+  const activityMapping = await sequelize.query(`SELECT roles.name AS rolename,
+  activities.name AS activityname, role_activities.can_create,role_activities.can_read,role_activities.can_update,
+  role_activities.can_delete, role_activities.created_at,role_activities.updated_at
+  FROM roles
+  JOIN role_activities ON roles.id = role_activities.role_id
+  JOIN activities ON activities.id = role_activities.activity_id;`, {type: sequelize.QueryTypes.SELECT});
 
   res.json({activityMapping})
 

@@ -35,7 +35,6 @@ export class UserComponent {
   }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    if(this.canCreate) {
     this.dialog.open(CreateUserModalDialogComponent, {
       width: '50%',
       enterAnimationDuration,
@@ -43,9 +42,6 @@ export class UserComponent {
     }).afterClosed().subscribe(val => {
       this.getUsers();
   });
-} else {
-  this.toastr.warning("You don't have access for Create");
-}
   }
 
   ngOnInit() {
@@ -61,24 +57,40 @@ export class UserComponent {
   }
   
   getUsers() {
-    if(this.canRead) {
+    debugger
+    const user = this.storageService.getUser();
+    const userId = user.activities[0].user_id;
     this.userService.getUsers().subscribe({
       next: (res: any)=> {
-        this.dataSource = new MatTableDataSource(res.users)
+        this.dataSource = new MatTableDataSource(res.users.filter((user: any) => user.username !== 'Admin' ))
+        console.log(this.dataSource)
         this.dataSource.paginator = this.paginator;
       },
       error: (err)=> {
         this.toastr.error("Error while fetching the record");
       }
     })
-  }else {
-    this.toastr.warning("You don't have access to View");
   }
+
+  updateActiveStatus(event: any, element: any) {
+    debugger
+    const newActiveStatus = event.checked;
+    const userId = element.userId;
+  
+    // Make PUT request to update user's active status in the backend
+    this.userService.updateUserStatus(userId, newActiveStatus).subscribe(
+      (response: any) => {
+        // Update user's active status in the frontend dataSource
+        element.active = newActiveStatus;
+      },
+      (error: any) => {
+        console.error(error);
+      }
+    );
   }
 
   editUser(element: any) {
     debugger
-    if(this.canUpdate) {
     this.dialog.open(CreateUserModalDialogComponent, {
       width: '50%',
       data: element
@@ -87,14 +99,9 @@ export class UserComponent {
         this.getUsers();
       }
     })
-  } else {
-    this.toastr.warning("You don't have access for Edit");
-  }
   }
 
   deleteUser(id: number) {
-    debugger
-    if(this.canDelete) {
     this.userService.deleteUser(id).subscribe({
       next:(res) => {
         this.getUsers();
@@ -103,8 +110,5 @@ export class UserComponent {
         this.toastr.error("Error while fetching the record");
       },
   })
-} else {
-  this.toastr.warning("You don't have access for Delete");
-}
   }
 }

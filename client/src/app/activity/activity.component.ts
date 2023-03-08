@@ -39,7 +39,6 @@ export class ActivityComponent {
   ngOnInit() {
     const currentUrl = this.router.url
     const user = this.storageService.getUser();
-    console.log(user)
     const userActivity = user.activities.find(
       (a: any) => a.url === currentUrl
     );
@@ -54,7 +53,6 @@ export class ActivityComponent {
     enterAnimationDuration: string,
     exitAnimationDuration: string
   ): void {
-    if (this.canCreate) {
       this.dialog
         .open(CreateActivityModalDialogComponent, {
           width: '50%',
@@ -65,13 +63,9 @@ export class ActivityComponent {
         .subscribe((val) => {
           this.getAllActivities();
         });
-    } else {
-      this.toastr.warning("You don't have access to Create");
-    }
   }
 
   getAllActivities() {
-    if (this.canRead) {
       this.activityService.getActivities().subscribe({
         next: (res: any) => {
           this.dataSource = new MatTableDataSource(res.activities);
@@ -81,14 +75,10 @@ export class ActivityComponent {
           this.toastr.error("Error while fetching the records");
         },
       });
-    } else {
-      this.toastr.warning("You don't have access to Read");
-    }
   }
 
   editActivity(element: any) {
     debugger;
-    if (this.canUpdate) {
       this.dialog
         .open(CreateActivityModalDialogComponent, {
           width: '50%',
@@ -100,14 +90,10 @@ export class ActivityComponent {
             this.getAllActivities();
           }
         });
-    } else {
-      this.toastr.warning("You don't have access to Edit");
-    }
   }
 
   deleteActivity(id: number) {
     debugger;
-    if (this.canDelete) {
       this.activityService.deleteActivity(id).subscribe({
         next: (res) => {
           this.getAllActivities();
@@ -116,8 +102,5 @@ export class ActivityComponent {
           this.toastr.error("Error while deleting the record");
         },
       });
-    } else {
-      this.toastr.warning("You don't have access to Delete");
-    }
   }
 }

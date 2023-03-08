@@ -22,7 +22,7 @@ export class ActivityMappingComponent {
   @ViewChild(MatTable) table!: MatTable<RoleItem>;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['name', 'role_name', 'activity_name', 'active', 'can_create', 'can_read', 'can_update', 'can_delete', 'created_at', 'updated_at'];
+  displayedColumns = ['role_name', 'activity_name','can_create', 'can_read', 'can_update', 'can_delete', 'created_at', 'updated_at'];
   dataSource = new MatTableDataSource<any>;
 
   canCreate = false;
@@ -38,7 +38,6 @@ export class ActivityMappingComponent {
     const currentUrl = this.router.url
     const user = this.storageService.getUser();
     const userActivity = user.activities.find((a: any) => a.url === currentUrl);
-    console.log(userActivity)
     this.canCreate = userActivity.can_create;
     this.canRead = userActivity.can_read;
     this.canUpdate = userActivity.can_update;
@@ -47,32 +46,25 @@ export class ActivityMappingComponent {
   }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    if(this.canCreate) {
     this.dialog.open(CreateActivityMappingDialogComponent, {
       width: '50%',
       enterAnimationDuration,
       exitAnimationDuration,
     })
-  }else{
-    this.toastr.warning("You don't have access to Create");
-  }
   }
 
   getActivityMapData() {
-    if(this.canRead) {
+    const user = this.storageService.getUser();
+    const roleId = user.activities[0].role_id;
     this.activityService.activityMappedData().subscribe({
       next: (res: any)=> {
-        this.dataSource = new MatTableDataSource(res.activityMapping)
+        this.dataSource = new MatTableDataSource(res.activityMapping.filter((role: any) => role.rolename !== 'ADMIN' && role.id !== roleId))
         this.dataSource.paginator = this.paginator;
-        console.log(this.dataSource)
       },
       error: (err)=> {
         this.toastr.error("Error while fetching the records");
       }
     })
-  } else {
-    this.toastr.warning("You don't have access to Read");
-  }
   }
 
 }

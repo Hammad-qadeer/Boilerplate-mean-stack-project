@@ -5,6 +5,7 @@ import { AuthService } from '../_services/auth.service';
 import { StorageService } from '../_services/storage.service';
 import { ThemePalette } from '@angular/material/core';
 import { ToastrService } from 'ngx-toastr';
+import { UsersService } from '../_services/users.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class LoginComponent {
 
-  constructor(private authService: AuthService, private storageService: StorageService, 
+  constructor(private authService: AuthService, private storageService: StorageService,
+    private userService: UsersService, 
     private router : Router, private toastr: ToastrService) {}
 
   loginForm = new FormGroup({
@@ -36,12 +38,25 @@ export class LoginComponent {
     debugger
     this.disabled = true;
     const { username, password } = this.loginForm.value;
+    const userId = this.storageService.getUser().id;
+    console.log(userId);
+
+    // const result = this.userService.getUserById(userId).subscribe({
+    //   next: (data) => {
+    //     const result = data;
+    //     // Do something with the result here
+    //   },
+    //   error: (error) => {
+    //     console.log(error);
+    //   }
+    // });
 
     this.authService.login(username!, password!).subscribe({
       next: data => {
         this.userData = data;
         if(this.userData.isActive) {
         this.storageService.saveUser(data);
+        console.log(data.id)
         this.router.navigate(['management/user']);
         // this.reloadPage();
         }else {

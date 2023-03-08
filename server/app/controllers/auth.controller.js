@@ -9,6 +9,7 @@ const { sequelize } = require("../models/index.js");
 
 exports.signin = async (req, res) => {
   try {
+    const isAdminRole = req.body.role
     const user = await User.findOne({
       where: {
         username: req.body.username,
@@ -34,13 +35,16 @@ exports.signin = async (req, res) => {
       expiresIn: 86400, // 24 hours
     });
 
-    const rolesQuery = `SELECT * FROM activities 
-    JOIN role_activities as ra ON activities.id = ra.activity_id
-    JOIN user_roles as ur ON ra.role_id = ur.role_id
-    WHERE ur.user_id =${user.id}`;
-    console.log(rolesQuery)
+    const rolesQuery = `SELECT *
+    FROM activities a
+    JOIN role_activities ra ON a.id = ra.activity_id
+    JOIN user_roles ur ON ra.role_id = ur.role_id
+    WHERE ur.user_id = ${user.id}
+    AND ((ra.can_create = true) OR (ra.can_read = true) OR (ra.can_update = true) OR (ra.can_delete = true));`;
 
-    const activities = await sequelize.query(rolesQuery, {
+    const adminQuery = `SELECT *, 1 as can_create, 1 as can_read, 1 as can_update, 1 as can_delete FROM activities;`;
+
+    const activities = await sequelize.query(isAdminRole === 'ADMIN' ? adminQuery : rolesQuery, {
       type: sequelize.QueryTypes.SELECT,
     });
     console.log(activities);
@@ -49,7 +53,6 @@ exports.signin = async (req, res) => {
       id: user.id,
       isActive: user.active,
       username: user.username,
-      currentRole : activities.role_id,
       email: user.email,
       activities,
       accessToken: token,

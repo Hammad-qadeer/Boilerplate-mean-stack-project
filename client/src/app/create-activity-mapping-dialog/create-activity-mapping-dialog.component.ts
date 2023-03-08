@@ -15,10 +15,10 @@ export class CreateActivityMappingDialogComponent {
   roles: any;
   selectedRoleId: any;
   selectedActivityId: any;
-  isCreate!: boolean;
-  isRead!: boolean;
-  isUpdate!: boolean;
-  isDelete!: boolean;
+  isCreate = false;
+  isRead =false;
+  isUpdate = false;
+  isDelete = false;
   userActivities: any;
 
   constructor(
@@ -34,10 +34,10 @@ export class CreateActivityMappingDialogComponent {
   }
 
   assignActivity() {
+    debugger
     const formData = [];
     for (let i = 0; i < this.userActivities.length; i++) {
       const activity = this.userActivities[i];
-      if (activity.can_create || activity.can_read || activity.can_update || activity.can_delete) {
       formData.push({
         role_id: this.selectedRoleId,
         activity_id: this.userActivities[i].id,
@@ -46,7 +46,6 @@ export class CreateActivityMappingDialogComponent {
         isUpdate: this.userActivities[i].can_update ? 1 : 0,
         isDelete: this.userActivities[i].can_delete ? 1 : 0,
       });
-    }
   }
     this.activityService.assignActivityToRole(formData).subscribe({
       next: () => {
@@ -65,7 +64,6 @@ export class CreateActivityMappingDialogComponent {
     this.activityService.getSelectedActivities(role_id).subscribe({
       next: (res: any) => {
         this.userActivities = res.activities;
-        console.log(res);
         // this.cdr.detectChanges();
       },
       error: (err) => {
@@ -77,10 +75,9 @@ export class CreateActivityMappingDialogComponent {
   getRoles() {
     const user = this.storageService.getUser();
     const roleId = user.activities[0].role_id;
-    console.log(roleId, user)
     this.roleService.getRoles().subscribe({
       next: (res: any) => {
-        this.roles = this.roles = res.roles.filter((role: any) => role.name !== 'ADMIN' && role.id !== roleId ); 
+        this.roles = res.roles.filter((role: any) => role.name !== 'ADMIN' && role.id !== roleId ); 
       },
       error: (err) => {
         alert('Error while fetching the records');

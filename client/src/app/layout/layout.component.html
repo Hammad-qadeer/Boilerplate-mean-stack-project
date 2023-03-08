@@ -15,14 +15,13 @@
           [attr.id]="'accordion-header-' + index"
           [attr.aria-expanded]="accordionItem.expanded"
           [attr.aria-controls]="'accordion-body-' + index">
-          <div routerLink={{activity.url}} class="example-accordion-item-header border-side p-3 bg-primary mb-2" routerLinkActive="activebutton">
+          <div routerLink={{activity.url}} *ngIf="activity.can_read || activity.can_create || activity.can_update || activity.can_delete" class="example-accordion-item-header border-side p-3 bg-primary mb-2" routerLinkActive="activebutton">
             {{ activity?.name }}
           </div>
           </cdk-accordion-item>
           </cdk-accordion>
       <!-- <a mat-list-item routerLink={{activity.url}}>{{activity.name}}</a> -->
-      <!-- <a mat-list-item routerLink="/user">User</a>
-      <a mat-list-item routerLink="/activity">Activity</a>
+      <!-- <a mat-list-item routerLink="/activity">Activity</a>
       <a mat-list-item routerLink="/role">Role</a> -->
 
     </mat-nav-list>

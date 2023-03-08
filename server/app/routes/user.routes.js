@@ -10,4 +10,5 @@ module.exports = (app) => {
   app.get("/api/user/:id", userController.getUserById);
   app.put("/api/user/:id", userController.updateUser);
   app.delete("/api/user/:id", userController.deleteUser);
+  app.put("/api/update-user-status/:id", userController.updateUserStatus)
 };

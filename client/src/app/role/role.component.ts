@@ -34,10 +34,8 @@ export class RoleComponent {
 
   ngOnInit() {
     const currentUrl = this.router.url
-    console.log(currentUrl)
     const user = this.storageService.getUser();
     const userActivity = user.activities.find((a: any) => a.url === currentUrl);
-    console.log(userActivity)
     this.canCreate = userActivity.can_create;
     this.canRead = userActivity.can_read;
     this.canUpdate = userActivity.can_update;
@@ -60,24 +58,20 @@ export class RoleComponent {
   }
 
   getRoles() {
-    if(this.canRead) {
+    const user = this.storageService.getUser();
+    const roleId = user.activities[0].role_id;
     this.roleService.getRoles().subscribe({
       next: (res: any)=> {
-        this.dataSource = new MatTableDataSource(res.roles)
+        this.dataSource = new MatTableDataSource(res.roles.filter((role: any) => role.name !== 'ADMIN' && role.id !== roleId ))
         this.dataSource.paginator = this.paginator;
       },
       error: (err)=> {
         this.toastr.error("Error while fetching the records");
       }
     })
-  }else {
-    this.toastr.warning("You don't have access to Read");
-  }
   }
 
   editRole(element: any) {
-    debugger
-    if(this.canUpdate) {
     this.dialog.open(CreateRoleModalDialogComponent, {
       width: '50%',
       data: element
@@ -86,14 +80,9 @@ export class RoleComponent {
         this.getRoles();
       }
     })
-  } else {
-    this.toastr.warning("You don't have access to Edit");
-  }
   }
 
   deleteRole(id: number) {
-    debugger
-    if(this.canDelete) {
     this.roleService.deleteRole(id).subscribe({
       next:(res) => {
         this.getRoles();
@@ -102,9 +91,6 @@ export class RoleComponent {
         this.toastr.error("Error while deleting the record");
       },
   })
-    } else {
-      this.toastr.warning("You don't have access to Delete");
-    }
   }
 
 }

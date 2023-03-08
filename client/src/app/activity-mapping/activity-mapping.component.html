@@ -5,7 +5,7 @@
         <mat-card-content>
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <h3>Portal Roles &amp; Rights</h3>
-            <button mat-flat-button color="primary" (click)="openDialog('0ms', '0ms')">
+            <button mat-flat-button color="primary" (click)="openDialog('0ms', '0ms')" *ngIf="canCreate">
               <mat-icon class="mr-2">add</mat-icon>
               <span>Activity Mapping</span>
             </button>
@@ -17,10 +17,6 @@
     </div>
     <br><br><br>
     <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-      <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.username}} </mat-cell>
-      </ng-container>
 
       <ng-container matColumnDef="role_name">
         <mat-header-cell *matHeaderCellDef> Role </mat-header-cell>
@@ -30,11 +26,6 @@
       <ng-container matColumnDef="activity_name">
         <mat-header-cell *matHeaderCellDef> Activity </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.activityname}} </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="active">
-        <mat-header-cell *matHeaderCellDef> Active </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.active}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="can_create">
