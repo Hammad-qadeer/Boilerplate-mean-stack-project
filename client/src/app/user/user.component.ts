@@ -48,7 +48,6 @@ export class UserComponent {
     const currentUrl = this.router.url
     const user = this.storageService.getUser();
     const userActivity = user.activities.find((a: any) => a.url === currentUrl);
-    console.log(userActivity)
     this.canCreate = userActivity.can_create;
     this.canRead = userActivity.can_read;
     this.canUpdate = userActivity.can_update;
@@ -63,7 +62,6 @@ export class UserComponent {
     this.userService.getUsers().subscribe({
       next: (res: any)=> {
         this.dataSource = new MatTableDataSource(res.users.filter((user: any) => user.username !== 'Admin' ))
-        console.log(this.dataSource)
         this.dataSource.paginator = this.paginator;
       },
       error: (err)=> {
@@ -82,6 +80,8 @@ export class UserComponent {
       (response: any) => {
         // Update user's active status in the frontend dataSource
         element.active = newActiveStatus;
+        const message = newActiveStatus ? 'User has been activated' : 'User has been deactivated';
+        this.toastr.success(message);
       },
       (error: any) => {
         console.error(error);

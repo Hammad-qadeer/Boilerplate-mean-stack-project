@@ -8,10 +8,10 @@ exports.getActivities = async (req, res) => {
 }
 
 exports.createActivity = async (req, res) => {
-    const {name, description, url, active} = req.body;
-    await sequelize.query(`INSERT into activities (name, description, url, active) 
-    VALUES(:name, :description, :url, :active)`,
-    {replacements: {name, description, url, active}, type: sequelize.QueryTypes.INSERT})
+    const {name, description, url, icon, active} = req.body;
+    await sequelize.query(`INSERT into activities (name, description, url, icon, active) 
+    VALUES(:name, :description, :url, :icon, :active)`,
+    {replacements: {name, description, url, icon, active}, type: sequelize.QueryTypes.INSERT})
 
     res.json({message: 'Activity Created Successfully'});
 }
@@ -28,10 +28,10 @@ exports.getActivityById = async (req, res) => {
 
 exports.updateActivity = async (req, res) => {
     const {id} = req.params;
-    const {name, description,url, active} = req.body;
+    const {name, description,url, icon, active} = req.body;
     await sequelize.query(`UPDATE activities 
-    SET name = :name, description = :description, url = :url, active = :active WHERE ID = :id`,{
-        replacements:{ name, description, url, active, id},
+    SET name = :name, description = :description, url = :url, icon = :icon, active = :active WHERE ID = :id`,{
+        replacements:{ name, description, url, icon, active, id},
         type: sequelize.QueryTypes.UPDATE
     })
 
@@ -101,7 +101,6 @@ exports.activity_mapping = async (req, res, next) => {
 
         return ({...result, ...returnedObject})
     })
-    console.log(activities)
     res.json({activities});
 };
 

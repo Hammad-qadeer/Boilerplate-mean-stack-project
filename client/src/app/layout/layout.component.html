@@ -16,7 +16,7 @@
           [attr.aria-expanded]="accordionItem.expanded"
           [attr.aria-controls]="'accordion-body-' + index">
           <div routerLink={{activity.url}} *ngIf="activity.can_read || activity.can_create || activity.can_update || activity.can_delete" class="example-accordion-item-header border-side p-3 bg-primary mb-2" routerLinkActive="activebutton">
-            {{ activity?.name }}
+            <mat-icon style="padding-right: 10px">{{activity.icon}}</mat-icon>{{ activity?.name }}
           </div>
           </cdk-accordion-item>
           </cdk-accordion>

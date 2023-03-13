@@ -58,7 +58,7 @@ export class ActivityMappingComponent {
     const roleId = user.activities[0].role_id;
     this.activityService.activityMappedData().subscribe({
       next: (res: any)=> {
-        this.dataSource = new MatTableDataSource(res.activityMapping.filter((role: any) => role.rolename !== 'ADMIN' && role.id !== roleId))
+        this.dataSource = new MatTableDataSource(res.activityMapping.filter((role: any) => role.rolename !== 'ADMIN'))
         this.dataSource.paginator = this.paginator;
       },
       error: (err)=> {

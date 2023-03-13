@@ -38,18 +38,6 @@ export class LoginComponent {
     debugger
     this.disabled = true;
     const { username, password } = this.loginForm.value;
-    const userId = this.storageService.getUser().id;
-    console.log(userId);
-
-    // const result = this.userService.getUserById(userId).subscribe({
-    //   next: (data) => {
-    //     const result = data;
-    //     // Do something with the result here
-    //   },
-    //   error: (error) => {
-    //     console.log(error);
-    //   }
-    // });
 
     this.authService.login(username!, password!).subscribe({
       next: data => {

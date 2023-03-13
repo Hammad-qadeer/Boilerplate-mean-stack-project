@@ -24,6 +24,7 @@ export class CreateActivityModalDialogComponent {
       name: ['', [Validators.required]],
       url: ['', [Validators.required]],
       description: ['', [Validators.required]],
+      icon: ['', [Validators.required]],
       active: [false],
     });
 
@@ -32,6 +33,7 @@ export class CreateActivityModalDialogComponent {
       this.activityForm.controls['name'].setValue(this.editData.name);
       this.activityForm.controls['url'].setValue(this.editData.url);
       this.activityForm.controls['description'].setValue(this.editData.description);
+      this.activityForm.controls['icon'].setValue(this.editData.icon);
       this.activityForm.controls['active'].setValue(this.editData.active);
     }
   }
@@ -39,7 +41,6 @@ export class CreateActivityModalDialogComponent {
   addActivity() {
     if(!this.editData) {
       if(this.activityForm.valid) {
-        alert(JSON.stringify(this.activityForm.value))
         this.activityService.postActivity(this.activityForm.value)
         .subscribe({
           next: (res)=> {

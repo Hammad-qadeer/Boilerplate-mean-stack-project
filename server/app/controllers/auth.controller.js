@@ -9,7 +9,7 @@ const { sequelize } = require("../models/index.js");
 
 exports.signin = async (req, res) => {
   try {
-    const isAdminRole = req.body.role
+    // const isAdminRole = req.body.role
     const user = await User.findOne({
       where: {
         username: req.body.username,
@@ -31,6 +31,8 @@ exports.signin = async (req, res) => {
       });
     }
 
+
+
     const token = jwt.sign({ id: user.id }, config.secret, {
       expiresIn: 86400, // 24 hours
     });
@@ -44,10 +46,29 @@ exports.signin = async (req, res) => {
 
     const adminQuery = `SELECT *, 1 as can_create, 1 as can_read, 1 as can_update, 1 as can_delete FROM activities;`;
 
-    const activities = await sequelize.query(isAdminRole === 'ADMIN' ? adminQuery : rolesQuery, {
+    const authoritiesQuery = `SELECT roles.id, roles.name, user_roles.role_id 
+    AS 'role_id', user_roles.user_id AS 'user_id' 
+    FROM roles INNER JOIN user_roles 
+    ON roles.id = user_roles.role_id AND user_roles.user_id = ${user.id}`
+
+
+    const role_query =`SELECT roles.id, roles.name, user_roles.role_id 
+    AS 'role_id', user_roles.user_id AS 'user_id' 
+    FROM roles INNER JOIN user_roles 
+    ON roles.id = user_roles.role_id AND user_roles.user_id = ${user.id}`
+
+    const role_query_result = await sequelize.query(role_query, {
       type: sequelize.QueryTypes.SELECT,
     });
-    console.log(activities);
+    
+    const activities = await sequelize.query(role_query_result[0].name === 'ADMIN' ? adminQuery : rolesQuery, {
+      type: sequelize.QueryTypes.SELECT,
+    });
+
+    const authorities = await sequelize.query(authoritiesQuery, {
+      type: sequelize.QueryTypes.SELECT,
+    });
+
 
     return res.status(200).send({
       id: user.id,
@@ -55,6 +76,7 @@ exports.signin = async (req, res) => {
       username: user.username,
       email: user.email,
       activities,
+      role: authorities,
       accessToken: token,
     });
   } catch (error) {
