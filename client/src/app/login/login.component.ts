@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../_services/auth.service';
 import { StorageService } from '../_services/storage.service';
 import { ThemePalette } from '@angular/material/core';
@@ -16,7 +16,7 @@ export class LoginComponent {
 
   constructor(private authService: AuthService, private storageService: StorageService,
     private userService: UsersService, 
-    private router : Router, private toastr: ToastrService) {}
+    private router : Router, private route: ActivatedRoute, private toastr: ToastrService) {}
 
   loginForm = new FormGroup({
     username: new FormControl('', [Validators.required]),
@@ -30,7 +30,7 @@ export class LoginComponent {
   ngOnInit(): void {
     if (this.storageService.isLoggedIn()) {
       this.isLoggedIn = true;
-      this.router.navigate(['management/user'])
+      // this.router.navigate(['management/user'])
     }
   }
 
@@ -44,9 +44,16 @@ export class LoginComponent {
         this.userData = data;
         if(this.userData.isActive) {
         this.storageService.saveUser(data);
-        console.log(data.id)
-        this.router.navigate(['management/user']);
-        // this.reloadPage();
+        const returnUrl = this.route.snapshot.queryParams['returnUrl'];
+        const activityURLS = this.storageService.getUser().activities.map((activity: any) => activity.url);
+        if (returnUrl) {
+        this.router.navigateByUrl(returnUrl);
+      } else if (activityURLS.length > 0) {
+        this.router.navigateByUrl(activityURLS[0]);
+      } else {
+        // no URL to navigate to
+        this.router.navigate(['not-found']);
+      }
         }else {
           this.toastr.error('Please contact admin', 'In Active User');
         }

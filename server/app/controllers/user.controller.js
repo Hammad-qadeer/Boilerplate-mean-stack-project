@@ -1,17 +1,18 @@
 const { sequelize } = require("../models/index.js");
 const bcrypt = require("bcryptjs");
 
-exports.getAllUsers = async (req, res) => {
-    const users = await sequelize.query(
-      `SELECT u.username,u.email,u.active,u.id as userId, rs.name as roleName, rs.id as roleId FROM users u 
-      INNER JOIN user_roles ur ON u.id = ur.user_id
-      INNER JOIN roles rs ON ur.role_id = rs.id`,
-      { type: sequelize.QueryTypes.SELECT }
-    );
-    res.json({ users });
-  };
+  exports.getAllUsers = async (req, res) => {
+      const users = await sequelize.query(
+        `SELECT u.username,u.email,u.password,u.active,u.id as userId, rs.name as roleName, rs.id as roleId FROM users u 
+        INNER JOIN user_roles ur ON u.id = ur.user_id
+        INNER JOIN roles rs ON ur.role_id = rs.id`,
+        { type: sequelize.QueryTypes.SELECT }
+      );
+      res.json({ users });
+    };
 
 exports.createUser = async (req, res) => {
+  try{
     const {username, email, password, active, roleId} = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     const [userId] = await sequelize.query(`INSERT INTO users(username, email, password,active) VALUES (:username,:email,:password, :active)`,
@@ -22,6 +23,12 @@ exports.createUser = async (req, res) => {
     await sequelize.query(`INSERT INTO user_roles(user_id, role_id) VALUES (:userId, :roleId)`,
         { replacements: { userId, roleId }, type: sequelize.QueryTypes.INSERT });
     res.json({message: "User Created Successfully"});
+  }
+  catch (error) {
+    console.log(error);
+    res.status(500).json({error: 'Internal server error'})
+  }
+
 }
 
 exports.getUserById = async (req, res) => {

@@ -39,7 +39,7 @@ export class CreateUserModalDialogComponent {
       this.actionBtn = "Update"
       this.userForm.controls['username'].setValue(this.editData.username);
       this.userForm.controls['email'].setValue(this.editData.email);
-      this.userForm.controls['password'].setValue(this.editData.passwordHash);
+      this.userForm.controls['password'].setValue(this.editData.password);
       this.userForm.controls['active'].setValue(this.editData.active);
       this.userForm.controls['roleId'].setValue(this.editData.roleId);
     }
@@ -60,7 +60,6 @@ export class CreateUserModalDialogComponent {
   addUser() {
     if(!this.editData) {
       if(this.userForm.valid) {
-        alert(JSON.stringify(this.userForm.value))
         this.userService.postUser(this.userForm.value)
         .subscribe({
           next: (res)=> {
