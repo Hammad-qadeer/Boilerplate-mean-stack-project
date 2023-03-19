@@ -1,0 +1,61 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false">
+    <mat-toolbar bg-bar text-white>MENU</mat-toolbar>
+    <mat-nav-list>
+      <cdk-accordion class="example-accordion px-2 border-none">
+        <cdk-accordion-item
+          *ngFor="let activity of user.activities; let index = index;"
+          #accordionItem="cdkAccordionItem"
+          class="example-accordion-item border-0"
+          role="button"
+          tabindex="0"
+          [attr.id]="'accordion-header-' + index"
+          [attr.aria-expanded]="accordionItem.expanded"
+          [attr.aria-controls]="'accordion-body-' + index">
+          <div routerLink={{activity.url}} *ngIf="activity.can_read || activity.can_create || activity.can_update || activity.can_delete" class="example-accordion-item-header border-side p-3 bg-primary mb-2" routerLinkActive="activebutton">
+            <mat-icon style="padding-right: 10px">{{activity.icon}}</mat-icon>{{ activity?.name }}
+          </div>
+          </cdk-accordion-item>
+          </cdk-accordion>
+      <!-- <a mat-list-item routerLink={{activity.url}}>{{activity.name}}</a> -->
+      <!-- <a mat-list-item routerLink="/activity">Activity</a>
+      <a mat-list-item routerLink="/role">Role</a> -->
+
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" style="display: flex; justify-content: space-between; align-items: center;">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <div class="row mr-2 ml-auto">
+        <ul class="row m-0 align-items-center">
+          <li >
+            <span class="welcome-text">{{user.username}}</span>
+            <button
+              mat-button
+              [matMenuTriggerFor]="menu"
+              class="user mt-2 d-flex align-items-center"
+            > 
+            <mat-icon>keyboard_arrow_down</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="logout()">
+                <mat-icon>exit_to_app</mat-icon>
+                Logout
+              </button>
+            </mat-menu>
+          </li>
+        </ul>
+      </div>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

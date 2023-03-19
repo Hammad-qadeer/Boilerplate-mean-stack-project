@@ -1,0 +1,63 @@
+<div class="mat-elevation-z8" style="margin-left: 20px; margin-right: 20px;">
+  
+  <div style="margin-top: 20px;border-bottom: 2px solid #3f51b5">
+    <mat-card>
+      <mat-card-content>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h3>Activities</h3>
+          <button mat-flat-button color="primary" (click)="openDialog('0ms', '0ms')" *ngIf="canCreate">
+            <mat-icon class="mr-2">add</mat-icon>
+            <span>Add Activity</span>
+          </button>
+        </div>
+      
+      </mat-card-content>
+    </mat-card>
+    
+  </div>
+  <br><br><br>
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="canRead">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="active">
+      <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.active}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="url">
+      <mat-header-cell *matHeaderCellDef> URL </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.url}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="created_at">
+      <mat-header-cell *matHeaderCellDef> Created At </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.created_at | date}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let element">
+        <button mat-icon-button color="primary"(click)="editActivity(element)" *ngIf="canUpdate">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteActivity(element.id)" *ngIf="canDelete">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+  
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator
+      [length]="dataSource.data.length"
+      [pageIndex]="0"
+      [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 20]"
+      aria-label="Select page">
+  </mat-paginator>
+</div>

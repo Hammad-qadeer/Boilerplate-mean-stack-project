@@ -1,0 +1,32 @@
+<h1 mat-dialog-title>Add Activity</h1>
+<div mat-dialog-content>
+  <form [formGroup]="activityForm" style="margin-top: 10px;">
+    <mat-form-field appearance="outline" style="margin-right: 10px;">
+        <mat-label>Name</mat-label>
+        <input formControlName="name" matInput placeholder="Name">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>URL</mat-label>
+        <input formControlName="url" matInput placeholder="URL">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="margin-right: 10px;">
+        <mat-label>Description</mat-label>
+        <input formControlName="description" matInput placeholder="Description">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Icon</mat-label>
+        <input formControlName="icon" matInput placeholder="Activity icon">
+      </mat-form-field>
+
+      <section class="example-section">
+        <mat-checkbox class="example-margin" color="primary" formControlName="active">Active</mat-checkbox>
+      </section>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-flat-button color="warn" mat-dialog-close>Cancel</button>
+  <button mat-flat-button color="primary" (click)="addActivity()">{{actionBtn}}</button>
+</div>
